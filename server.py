@@ -1,7 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import logging
 
-class S(BaseHTTPRequestHandler):
+
+class Handler(BaseHTTPRequestHandler):
 	def _set_response(self):
 		self.send_response(200)
 		self.send_header('Content-type', 'text/html')
@@ -17,7 +18,10 @@ class S(BaseHTTPRequestHandler):
 		self._set_response()
 		self.wfile.write("POST request for {}".format(self.path).encode('utf-8'))
 
-def run(server_class=HTTPServer, handler_class=S, port=8080):
+
+
+
+def run(server_class=HTTPServer, handler_class=Handler, port=8080):
 	logging.basicConfig(level=logging.INFO)
 	server_address = ('', port)
 	httpd = server_class(server_address, handler_class)
@@ -30,9 +34,11 @@ def run(server_class=HTTPServer, handler_class=S, port=8080):
 	httpd.server_close()
 	logging.info('Stopping httpd...\n')
 
+
+
 if __name__ == '__main__':
 	from sys import argv
 	if len(argv) == 2:
 		run(port=int(argv[1]))
 	else:
-		run()
+		run(port = 502)
